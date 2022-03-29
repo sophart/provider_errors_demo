@@ -35,14 +35,16 @@ class _ContentState extends State<Content> {
 
     //! The problems
     //! Show the dialog while other widget has not been built
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text("The Dialog"),
-        );
-      },
-    );
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text("The Dialog"),
+          );
+        },
+      );
+    });
   }
 
   @override
