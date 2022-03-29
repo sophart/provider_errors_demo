@@ -32,8 +32,31 @@ class _ContentState extends State<Content> {
   @override
   void initState() {
     super.initState();
-    context.read<Counter>().increment();
-    myCounter = context.read<Counter>().counter + 10;
+    //! Update the state while the page is being rendered
+    //! Cause the markNeedsBuild error
+
+    //! Here we need to use read or .of(context, listen: false)
+    //! Not the watch
+    // context.read<Counter>().increment();
+    // myCounter = context.read<Counter>().counter + 10;
+
+    //! The Fix 1
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<Counter>().increment();
+      myCounter = context.read<Counter>().counter + 10;
+    });
+
+    //! The Fix 2
+    // Future.delayed(Duration.zero, () {
+    //   context.read<Counter>().increment();
+    //   myCounter = context.read<Counter>().counter + 10;
+    // });
+
+    //! The Fix 3
+    // Future.microtask(() {
+    //   context.read<Counter>().increment();
+    //   myCounter = context.read<Counter>().counter + 10;
+    // });
   }
 
   @override
