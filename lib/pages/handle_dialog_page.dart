@@ -30,6 +30,22 @@ class Content extends StatefulWidget {
 
 class _ContentState extends State<Content> {
   @override
+  void initState() {
+    super.initState();
+
+    //! The problems
+    //! Show the dialog while other widget has not been built
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text("The Dialog"),
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Text(
       context.watch<Counter>().counter.toString(),
